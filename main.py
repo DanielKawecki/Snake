@@ -17,10 +17,16 @@ class Game:
         self.new_food()
 
     def new_game(self):
-        pass
+        self.snake = Snake()
+        self.new_food()
+        self.state = 0
 
     def new_food(self):
-        self.food = pg.Vector2(random.randint(0, 29) * SIZE, random.randint(0, 29) * SIZE)
+        food = pg.Vector2(random.randint(0, N - 1) * SIZE, random.randint(0,  N - 1) * SIZE)
+        while food in self.snake.get_body():
+            food = pg.Vector2(random.randint(0, N - 1) * SIZE, random.randint(0,  N - 1) * SIZE)
+        
+        self.food = food
 
     def update(self):
         pg.display.flip()
@@ -32,6 +38,7 @@ class Game:
 
         if self.snake.check_death():
             self.state = 1
+            self.snake.set_dir(0, 0)
         
     def draw(self):
         self.screen.fill(BACKGROUND)
@@ -43,7 +50,7 @@ class Game:
 
         score = self.snake.get_length()
         surf = self.font.render(str(score), True, WHITE)
-        self.screen.blit(surf, (560, 10))
+        self.screen.blit(surf, (RES[0] - 40, 10))
 
     def check_events(self):
         for event in pg.event.get():
@@ -65,6 +72,9 @@ class Game:
                 
                 elif event.key == pg.K_d and x_dir == 0:
                     self.snake.set_dir(1, 0)
+
+                if  self.state == 1 and event.key == pg.K_SPACE:
+                    self.new_game()
 
     def run(self):
         while not self.should_close:

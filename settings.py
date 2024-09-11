@@ -1,7 +1,8 @@
-RES = 600, 600
-FPS = 10
+RES = 400, 400
+FPS = 12
 
 SIZE = 20
+N = RES[0] // SIZE
 
 # Colors
 BACKGROUND = [20, 20, 20]

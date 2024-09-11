@@ -58,3 +58,6 @@ class Snake:
     
     def get_length(self):
         return self.length
+    
+    def get_body(self):
+        return self.body
