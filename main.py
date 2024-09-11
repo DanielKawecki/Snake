@@ -9,7 +9,9 @@ class Game:
         pg.init()
         self.screen = pg.display.set_mode(RES)
         self.clock = pg.time.Clock()
+        self.font = pg.font.SysFont("Arial", 40)
         self.should_close = False
+        self.state = 0 # 0 for game in progress 1 for game over
         self.snake = Snake()
         self.food = pg.Vector2(0, 0)
         self.new_food()
@@ -27,11 +29,21 @@ class Game:
 
         if self.snake.check_food(self.food):
             self.new_food()
+
+        if self.snake.check_death():
+            self.state = 1
         
     def draw(self):
         self.screen.fill(BACKGROUND)
         self.snake.draw(self.screen)
         pg.draw.rect(self.screen, RED, pg.Rect(self.food.x, self.food.y, SIZE, SIZE))
+
+        if self.state == 1:
+            pg.draw.rect(self.screen, RED, pg.Rect(0, 0, RES[0], RES[0]))
+
+        score = self.snake.get_length()
+        surf = self.font.render(str(score), True, WHITE)
+        self.screen.blit(surf, (560, 10))
 
     def check_events(self):
         for event in pg.event.get():
@@ -41,16 +53,17 @@ class Game:
                 sys.exit()
 
             if event.type == pg.KEYDOWN:
-                if event.key == pg.K_w:
+                x_dir, y_dir = self.snake.get_dir()
+                if event.key == pg.K_w and y_dir == 0:
                     self.snake.set_dir(0, -1)
                 
-                elif event.key == pg.K_s:
+                elif event.key == pg.K_s and y_dir == 0:
                     self.snake.set_dir(0, 1)
                 
-                elif event.key == pg.K_a:
+                elif event.key == pg.K_a and x_dir == 0:
                     self.snake.set_dir(-1, 0)
                 
-                elif event.key == pg.K_d:
+                elif event.key == pg.K_d and x_dir == 0:
                     self.snake.set_dir(1, 0)
 
     def run(self):
