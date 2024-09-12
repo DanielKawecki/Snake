@@ -13,8 +13,7 @@ class Game:
         self.should_close = False
         self.state = 0 # 0 for game in progress 1 for game over
         self.snake = Snake()
-        self.food = pg.Vector2(0, 0)
-        self.new_food()
+        self.food = pg.Vector2(360, 220)
         self.score = 0
 
         self.last_time = 0
@@ -104,5 +103,4 @@ class Game:
 
 if __name__ == '__main__':
     game = Game()
-    game.new_game()
     game.run()
