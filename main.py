@@ -15,6 +15,10 @@ class Game:
         self.snake = Snake()
         self.food = pg.Vector2(0, 0)
         self.new_food()
+        self.score = 0
+
+        self.last_time = 0
+        self.update_interval = 1000 // FPS
 
     def new_game(self):
         self.snake = Snake()
@@ -30,11 +34,14 @@ class Game:
 
     def update(self):
         pg.display.flip()
-        self.clock.tick(FPS)
-        self.snake.update()
+        current_time = pg.time.get_ticks()
+        if current_time - self.last_time >= self.update_interval:
+            self.snake.update()
+            self.last_time = current_time
 
         if self.snake.check_food(self.food):
             self.new_food()
+            self.score += 1
 
         if self.snake.check_death():
             self.state = 1
@@ -48,8 +55,7 @@ class Game:
         if self.state == 1:
             pg.draw.rect(self.screen, RED, pg.Rect(0, 0, RES[0], RES[0]))
 
-        score = self.snake.get_length()
-        surf = self.font.render(str(score), True, WHITE)
+        surf = self.font.render(str(self.score), True, WHITE)
         self.screen.blit(surf, (RES[0] - 40, 10))
 
     def check_events(self):
