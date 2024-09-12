@@ -1,13 +1,13 @@
-RES = 400, 400
+RES = 480
 FPS = 12
 
 SIZE = 20
-N = RES[0] // SIZE
+N = 20
+MARGIN = 40
+AREA = RES - MARGIN * 2
 
 # Colors
 BACKGROUND = [20, 20, 20]
-BLUE = [40, 40, 220]
-YELLOW = [220, 220, 40]
 GREEN = [40, 220, 40]
 WHITE = [240, 240, 240]
 RED = [220, 40, 40]

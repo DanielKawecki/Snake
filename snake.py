@@ -4,7 +4,7 @@ from settings import *
 class Snake:
     def __init__(self):
         self.body = []
-        self.body.append(pg.Vector2(40, 160))
+        self.body.append(pg.Vector2(80, 160))
         self.length = 1
 
         self.x_dir = 0
@@ -33,10 +33,10 @@ class Snake:
         return False
     
     def check_death(self):
-        if self.body[-1].x < 0 or self.body[-1].x >= RES[0]:
+        if self.body[-1].x < MARGIN or self.body[-1].x >= RES - MARGIN:
             return True
         
-        if self.body[-1].y < 0 or self.body[-1].y >= RES[0]:
+        if self.body[-1].y < MARGIN or self.body[-1].y >= RES - MARGIN:
             return True
         
         for segment in self.body[:-1]:
